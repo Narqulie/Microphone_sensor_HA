@@ -1,0 +1,7 @@
+{
+    "broker_address": "IP",
+    "broker_port": "Port",
+    "topic": "Topic",
+    "username": "Username",
+    "password": "Password"
+}

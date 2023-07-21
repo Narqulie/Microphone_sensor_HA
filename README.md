@@ -37,7 +37,7 @@ The noise level status ("Noise" or "Quiet") is then published to the specified M
 
 All major actions are logged in mic_sensor.log.
 
-Notes
+Notes :
 
 This script requires access to audio hardware and the network. It won't run in environments where these are not available.
 
