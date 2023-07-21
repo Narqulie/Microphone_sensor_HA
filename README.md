@@ -21,14 +21,13 @@ This Python script uses a microphone to detect noise levels and sends the noise 
 2. Configure the MQTT details (broker address, broker port, and topic) in `config.json`:
 
     ```json
-{
-    "broker_address": "IP",
-    "broker_port": "Port",
-    "topic": "Topic",
-    "username": "Username",
-    "password": "Password"
-}
-
+    {
+    "broker_address": "<your_mqtt_broker_ip>",
+    "broker_port": "<your_mqtt_broker_port>",
+    "topic": "<your_mqtt_topic>",
+    "username": "<your_mqtt_username>",
+    "password": "<your_mqtt_password>"
+    }
     ```
 ## How It Works
 
@@ -40,7 +39,7 @@ The noise level status ("Noise" or "Quiet") is then published to the specified M
 
 All major actions are logged in mic_sensor.log.
 
-Notes :
+Notes:
 
 This script requires access to audio hardware and the network. It won't run in environments where these are not available.
 
