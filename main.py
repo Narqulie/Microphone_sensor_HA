@@ -36,14 +36,16 @@ logging.info(
 
 # Setting up the microphone; this is optional, system default is used
 def choose_mic():
-    devices = sd.query_devices()
-    for device in devices:
-        if device['max_input_channels'] > 0:  # this is an input device
+    all_devices = sd.query_devices()
+    input_devices = [device for device in all_devices if device['max_input_channels'] > 0]
+
+    if len(input_devices) > 1:
+        for device in input_devices:
             logging.info(f"Device #{device['index']}: {device['name']}")
             print(f"Device #{device['index']}: {device['name']}")
-    global device_index
-    device_index = int(input("Which device should be used for measurements? (enter device number) : "))
-    logging.info(f"Input device #{device_index} chosen")
+        global device_index
+        device_index = int(input("Which device should be used for measurements? (enter device number) : "))
+        logging.info(f"Input device #{device_index} chosen")
 
 
 # Define some constants
