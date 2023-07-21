@@ -19,11 +19,16 @@ with open("config.json") as config_file:
 logging.info("Reading config for MQTT details:")
 broker_address = config["broker_address"]
 broker_port = config["broker_port"]
-client = mqtt.Client()
-client.connect(broker_address, broker_port)
-topic = config["topic"]
 username = config["username"]
 password = config["password"]
+topic = config["topic"]
+
+logging.info("Setting up MQTT Client")
+client = mqtt.Client()
+client.username_pw_set(username, password)
+client.connect(broker_address, broker_port)
+
+
 logging.info(
     f"Broker address: {broker_address}, "
     f"port: {broker_port}, "
