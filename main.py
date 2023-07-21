@@ -9,7 +9,7 @@ import json
 # Set up Logging
 logging.basicConfig(filename="mic_sensor.log",
                     level=logging.INFO,
-                    format='%(asctime)s %(message)s')
+                    format="%(asctime)s -- %(message)s")
 
 # Load the configuration file
 with open("config.json") as config_file:
@@ -22,6 +22,8 @@ broker_port = config["broker_port"]
 client = mqtt.Client()
 client.connect(broker_address, broker_port)
 topic = config["topic"]
+username = config["username"]
+password = config["password"]
 logging.info(
     f"Broker address: {broker_address}, "
     f"port: {broker_port}, "
@@ -58,10 +60,10 @@ def audio_callback(indata, frames, time_info, status):
     if time.time() - last_measurement_time >= 1:
         last_measurement_time = time.time()  # Update the time of the last measurement
         if rms > threshold:  # If the RMS is greater than the threshold...
-            logging.info(f"Noise detected -- {rms}/{threshold}")  # Print a message
+            logging.info(f"Noise detected -- {rms}/{threshold}")
             value = "Noise"  # Set the value to be published to the MQTT topic
         else:  # If the RMS is not greater than the threshold...
-            logging.info(f"Quiet -- {rms}/{threshold}")  # Print a message
+            logging.info(f"Quiet -- {rms}/{threshold}")
             value = "Quiet"  # Set the value to be published to the MQTT topic
         client.publish(topic, value)  # Publish the value to the MQTT topic
 
