@@ -6,8 +6,13 @@ import paho.mqtt.client as mqtt
 import logging
 import json
 
+# Set up Logging
+logging.basicConfig(filename="mic_sensor.log",
+                    level=logging.INFO,
+                    format='%(asctime)s %(message)s')
+
 # Load the configuration file
-with open("Microphone_sensor_HA/config.json") as config_file:
+with open("config.json") as config_file:
     config = json.load(config_file)
 
 # Set up MQTT client
@@ -17,10 +22,11 @@ broker_port = config["broker_port"]
 client = mqtt.Client()
 client.connect(broker_address, broker_port)
 topic = config["topic"]
-logging.info(f"Broker address: {broker_address}, port: {broker_port}, topic: {topic}")
-
-# Set up Logging
-logging.basicConfig(filename="Microphone_sensor_HA/mic_sensor.log", level=logging.INFO, format='%(asctime)s %(message)s')
+logging.info(
+    f"Broker address: {broker_address}, "
+    f"port: {broker_port}, "
+    f"topic: {topic}"
+)
 
 # Define some constants
 average_duration = 5  # Duration (in seconds) over which to calculate the average RMS
@@ -31,6 +37,7 @@ rms_values = []  # List to store recent RMS values
 threshold = 0  # Initial threshold value
 last_measurement_time = 0  # Time when the last measurement was made
 
+
 # Define the callback function for audio recording
 def audio_callback(indata, frames, time_info, status):
     global threshold, last_measurement_time
@@ -40,10 +47,10 @@ def audio_callback(indata, frames, time_info, status):
 
     # If enough time has passed to calculate a new average RMS and threshold...
     if len(rms_values) >= average_duration * sample_rate / block_size:
-        logging.info(f"Setting new threshold: ")
+        logging.info("Setting new threshold: ")
         average_rms = np.mean(rms_values)  # Calculate the average RMS
         threshold = average_rms * threshold_factor  # Calculate the new threshold
-        threshold = round(threshold,3)
+        threshold = round(threshold, 3)
         logging.info(f"New threshold : {threshold}")
         rms_values.clear()  # Clear the list of recent RMS values
 
@@ -58,13 +65,18 @@ def audio_callback(indata, frames, time_info, status):
             value = "Quiet"  # Set the value to be published to the MQTT topic
         client.publish(topic, value)  # Publish the value to the MQTT topic
 
+
 logging.info("Starting process")
 # Start an audio stream with the callback function
-stream = sd.InputStream(callback=audio_callback, channels=1, samplerate=sample_rate, blocksize=block_size)
+stream = sd.InputStream(callback=audio_callback, channels=1,
+                        samplerate=sample_rate,
+                        blocksize=block_size)
 stream.start()  # Start the audio stream
+
 
 # Start the MQTT client's loop
 client.loop_start()
+
 
 # Run an infinite loop to keep the script running indefinitely
 while True:
