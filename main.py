@@ -27,13 +27,24 @@ logging.info("Setting up MQTT Client")
 client = mqtt.Client()
 client.username_pw_set(username, password)
 client.connect(broker_address, broker_port)
-
-
 logging.info(
     f"Broker address: {broker_address}, "
     f"port: {broker_port}, "
     f"topic: {topic}"
 )
+
+
+# Setting up the microphone; this is optional, system default is used
+def choose_mic():
+    devices = sd.query_devices()
+    for device in devices:
+        if device['max_input_channels'] > 0:  # this is an input device
+            logging.info(f"Device #{device['index']}: {device['name']}")
+            print(f"Device #{device['index']}: {device['name']}")
+    global device_index
+    device_index = int(input("Which device should be used for measurements? (enter device number) : "))
+    logging.info(f"Input device #{device_index} chosen")
+
 
 # Define some constants
 average_duration = 5  # Duration (in seconds) over which to calculate the average RMS
@@ -74,8 +85,12 @@ def audio_callback(indata, frames, time_info, status):
 
 
 logging.info("Starting process")
+
+choose_mic()
 # Start an audio stream with the callback function
-stream = sd.InputStream(callback=audio_callback, channels=1,
+stream = sd.InputStream(callback=audio_callback,
+                        device=device_index,
+                        channels=1,
                         samplerate=sample_rate,
                         blocksize=block_size)
 stream.start()  # Start the audio stream
