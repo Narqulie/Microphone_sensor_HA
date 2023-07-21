@@ -27,15 +27,7 @@ This Python script uses a microphone to detect noise levels and sends the noise 
         "topic": "<mqtt_topic>"
     }
     ```
-
-## Run
-
-To run the script, use the command:
-
-```bash
-python3 main.py
-
-How It Works
+## How It Works
 
 The script records audio from the microphone, calculates the root mean square (RMS) as a measure of the amplitude of the audio, and compares the RMS to a threshold to determine whether the environment is noisy or quiet.
 
@@ -48,3 +40,10 @@ All major actions are logged in mic_sensor.log.
 Notes
 
 This script requires access to audio hardware and the network. It won't run in environments where these are not available.
+
+## Run
+
+To run the script, use the command:
+
+```bash
+python3 main.py
