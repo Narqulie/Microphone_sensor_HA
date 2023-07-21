@@ -23,7 +23,7 @@ This Python script uses a microphone to detect noise levels and sends the noise 
     ```json
     {
         "broker_address": "<broker_address>",
-        "broker_port": <broker_port>,
+        "broker_port": "<broker_port>",
         "topic": "<mqtt_topic>"
     }
     ```
