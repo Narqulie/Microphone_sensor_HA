@@ -34,7 +34,8 @@ logging.info(
 )
 
 
-# Setting up the microphone; this is optional, system default is used
+# Setting up the microphone. If only one microphone is present, that is used, 
+# otherwise a list of devices is presented and chosen by the user
 def choose_mic():
     all_devices = sd.query_devices()
     input_devices = [device for device in all_devices if device['max_input_channels'] > 0]
