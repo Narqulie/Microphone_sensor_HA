@@ -31,7 +31,7 @@ This Python script uses a microphone to detect noise levels and sends the noise 
     ```
 ## How It Works
 
-The script records audio from the microphone, calculates the root mean square (RMS) as a measure of the amplitude of the audio, and compares the RMS to a threshold to determine whether the environment is noisy or quiet.
+The script records audio from the chosen microphone, calculates the root mean square (RMS) as a measure of the amplitude of the audio, and compares the RMS to a threshold to determine whether the environment is noisy or quiet.
 
 If the RMS is above the threshold, it is considered noisy; otherwise, it is considered quiet. The threshold is recalculated every 5 seconds as 1.5 times the average of the recent RMS values.
 
